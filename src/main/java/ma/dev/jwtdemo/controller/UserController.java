@@ -20,6 +20,7 @@ import ma.dev.jwtdemo.security.service.AccountService;
 public class UserController {
 
     private final AccountService accountService;
+    
     // TODO: delete after testing 
     private final AppUserRepository appUserRepository;
 
