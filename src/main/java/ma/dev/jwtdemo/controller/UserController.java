@@ -27,7 +27,7 @@ public class UserController {
     @GetMapping("/users")
     @PreAuthorize("hasAuthority('SCOPE_USER')")
     public List<AppUser> getAllUsers() {
-        return accountService.listUsers();
+         return accountService.listUsers();
     }
 
     // TODO: delete after testing
