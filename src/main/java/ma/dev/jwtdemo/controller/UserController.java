@@ -25,14 +25,14 @@ public class UserController {
     private final AppUserRepository appUserRepository;
 
     @GetMapping("/users")
-    @PreAuthorize("hasAuthority('SCOPE_USER')")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_USER')")
     public List<AppUser> getAllUsers() {
          return accountService.listUsers();
     }
 
     // TODO: delete after testing
     @GetMapping("/users/{id}")
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public AppUser getUser(@PathVariable("id") Long id) {
         return appUserRepository.findById(id).get();
     }

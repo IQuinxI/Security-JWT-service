@@ -37,6 +37,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 
 import lombok.RequiredArgsConstructor;
 import ma.dev.jwtdemo.security.RsaKeyConfig;
+import ma.dev.jwtdemo.security.service.UserDetailsServiceImpl;
 
 /**
  * SecurityConfig
@@ -44,25 +45,30 @@ import ma.dev.jwtdemo.security.RsaKeyConfig;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-@RequiredArgsConstructor
+// @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final RsaKeyConfig rsaKeyConfig;
+    private RsaKeyConfig rsaKeyConfig;    
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
+    
+    // @Bean
+    // InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+    //     PasswordEncoder passwordEncoder = passwordEncoder();
 
-
-    @Bean
-    InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-        PasswordEncoder passwordEncoder = passwordEncoder();
-
-        return new InMemoryUserDetailsManager(
-                User.withUsername("user1").password(passwordEncoder.encode("1234")).authorities("USER").build(),
-                User.withUsername("admin").password(passwordEncoder.encode("1234")).authorities("USER", "ADMIN")
-                        .build());
-    }
+    //     return new InMemoryUserDetailsManager(
+    //             User.withUsername("user1").password(passwordEncoder.encode("1234")).authorities("USER").build(),
+    //             User.withUsername("admin").password(passwordEncoder.encode("1234")).authorities("USER", "ADMIN")
+    //                     .build());
+    // }
 
   
 
+
+    public SecurityConfig(RsaKeyConfig rsaKeyConfig, UserDetailsServiceImpl userDetailsServiceImpl) {
+        this.rsaKeyConfig = rsaKeyConfig;
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
+    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -79,6 +85,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(ar -> ar.requestMatchers(mvc.pattern("/auth/login/**")).permitAll())
                 .authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
                 .oauth2ResourceServer(oa -> oa.jwt(Customizer.withDefaults()))
+                .userDetailsService(userDetailsServiceImpl)
                 .build();
     }
 

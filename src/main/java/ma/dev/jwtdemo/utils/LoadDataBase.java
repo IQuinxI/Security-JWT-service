@@ -21,19 +21,19 @@ public class LoadDataBase {
     @Bean
     CommandLineRunner load(AccountService accountService) {
         return args -> {
-            accountService.addNewRole(new AppRole(null, "MANAGER"));
-            accountService.addNewRole(new AppRole(null, "CASHIER"));
+            accountService.addNewRole("ADMIN");
+            accountService.addNewRole("USER");
 
-            accountService.addNewUser(new AppUser(null, "manager", "1234", new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null, "user1", "1234", new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null, "user2", "1234", new ArrayList<>()));
-            accountService.addNewUser(new AppUser(null, "user3", "1234", new ArrayList<>()));
+            accountService.addNewUser("manager", "1234", "1234");
+            accountService.addNewUser("user1", "1234", "1234");
+            accountService.addNewUser("user2", "1234", "1234");
+            accountService.addNewUser("user3", "1234", "1234");
             
-            accountService.addRoleToUser("manager", "MANAGER");
-            accountService.addRoleToUser("manager", "CASHIER");
-            accountService.addRoleToUser("user1", "CASHIER");
-            accountService.addRoleToUser("user2", "CASHIER");
-            accountService.addRoleToUser("user3", "CASHIER");
+            accountService.addRoleToUser("manager", "ADMIN");
+            accountService.addRoleToUser("manager", "USER");
+            accountService.addRoleToUser("user1", "USER");
+            accountService.addRoleToUser("user2", "USER");
+            accountService.addRoleToUser("user3", "USER");
             
         };
     }
